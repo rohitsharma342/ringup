@@ -5,11 +5,25 @@ import 'screens/dashboard_screen.dart';
 import 'screens/contest_play_screen.dart';
 import 'screens/leaderboard_screen.dart';
 import 'screens/notifications_screen.dart';
+import 'screens/error_screen.dart';
 import 'services/data_service.dart';
 import 'utils/app_colors.dart';
+import 'utils/app_routes.dart';
+import 'utils/error_handler.dart';
 
 void main() {
-  runApp(MyApp());
+  // Set up global error handling
+  FlutterError.onError = (FlutterErrorDetails details) {
+    ErrorHandler.handleError(details.exception, details.stack);
+    FlutterError.presentError(details);
+  };
+
+  // Handle errors outside of Flutter framework
+  runZonedGuarded(() {
+    runApp(MyApp());
+  }, (error, stackTrace) {
+    ErrorHandler.handleError(error, stackTrace);
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -44,15 +58,21 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => SplashScreen(),
-          '/dashboard': (context) => DashboardScreen(),
-          '/contest-play': (context) => ContestPlayScreen(),
-          '/leaderboard': (context) => LeaderboardScreen(),
-          '/notifications': (context) => NotificationsScreen(),
+        initialRoute: AppRoutes.splash,
+        routes: AppRoutes.routes,
+        onGenerateRoute: AppRoutes.onGenerateRoute,
+        builder: (context, widget) {
+          // Global error boundary
+          ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+            return ErrorHandler.buildErrorWidget(errorDetails);
+          };
+          
+          return widget ?? Container();
         },
       ),
     );
   }
 }
+
+// Import for runZonedGuarded
+import 'dart:async';
