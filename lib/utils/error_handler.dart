@@ -46,7 +46,7 @@ class ErrorHandler {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                if (kDebugMode) ...[
+                if (kDebugMode) ..[
                   SizedBox(height: 24),
                   Container(
                     padding: EdgeInsets.all(16),
