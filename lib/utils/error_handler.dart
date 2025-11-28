@@ -46,44 +46,48 @@ class ErrorHandler {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                if (kDebugMode) ..[
-                  SizedBox(height: 24),
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.red.shade200),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Debug Info:',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red.shade700,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          details.exception.toString(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.red.shade600,
-                            fontFamily: 'monospace',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                if (kDebugMode) ..._buildDebugInfo(details),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  static List<Widget> _buildDebugInfo(FlutterErrorDetails details) {
+    return [
+      SizedBox(height: 24),
+      Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.red.shade50,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.red.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Debug Info:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red.shade700,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              details.exception.toString(),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.red.shade600,
+                fontFamily: 'monospace',
+              ),
+            ),
+          ],
+        ),
+      ),
+    ];
   }
 
   static void showErrorSnackBar(BuildContext context, String message) {
