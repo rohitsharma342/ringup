@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
           ),
-          cardTheme: CardTheme(
+          cardTheme: CardThemeData(
             color: AppColors.cardBackground,
             elevation: 2,
             shadowColor: AppColors.primary.withOpacity(0.1),
